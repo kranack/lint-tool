@@ -1,0 +1,27 @@
+{
+    "name": "kranack/lint-tools",
+    "description": "Lint Tools CLI",
+    "type": "project",
+    "require": {
+        "php": "^7.3",
+        "symfony/console": "^4.3",
+        "barryvdh/composer-cleanup-plugin": "^0.2.0",
+        "phar-io/version": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.3",
+        "jakub-onderka/php-parallel-lint": "^1.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Damien Calesse",
+            "email": "dcalesse@j2s.net"
+        }
+	],
+	"autoload": {
+		"psr-4": {
+			"kranack\\Lint\\": "src/"
+		}
+	}
+}
