@@ -36,7 +36,11 @@ class LocalScanner implements IScanner
 			$version = strstr($firstLine, '(cli)', true);
 
 			if ($version !== false) {
-				return trim(str_replace('PHP', '', $version));
+				$version = trim(str_replace('PHP', '', $version));
+				
+				$parts = explode('-', $version);
+				
+				return (count($parts) > 1 ? reset($parts) : $version);
 			}
 		}
 
