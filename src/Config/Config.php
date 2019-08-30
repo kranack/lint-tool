@@ -5,7 +5,7 @@ namespace kranack\Lint\Config;
 use Exception;
 use stdClass;
 
-use kranack\Lint\Exceptions\ConfigurationNotValid;
+use kranack\Lint\Exceptions\{ ConfigurationNotFound, ConfigurationNotValid };
 
 class Config
 {
@@ -60,8 +60,12 @@ class Config
 
 	private function read() : void
 	{
+		if (!$this->exists()) { throw new ConfigurationNotFound(); }
+
 		try {
 			$this->data = json_decode(file_get_contents($this->path));
+
+			if ($this->isEmpty()) { throw new ConfigurationNotValid(); }
 		} catch (Exception $e) {
 			throw new ConfigurationNotValid($e);
 		}
