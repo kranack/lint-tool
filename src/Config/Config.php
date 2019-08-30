@@ -87,7 +87,7 @@ class Config
 	public static function getDefaultConfig() : stdClass
 	{
 		return (object) [
-			'php'	=> [ 'php' ]
+			'paths'	=> [ ]
 		];
 	}
 

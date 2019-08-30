@@ -4,7 +4,7 @@ namespace kranack\Lint\Commands;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\{ InputArgument, InputOption };
 use Symfony\Component\Console\Output\OutputInterface;
 
 use JakubOnderka\PhpParallelLint\{ ConsoleWriter, Manager, Settings };
@@ -26,7 +26,7 @@ class LintFilesCommand extends Command
 			->setDescription('Lint files')
 			->setHelp('This command lint PHP files')
 			->addArgument('folder', InputArgument::REQUIRED, 'The folder containing PHP files')
-			->addArgument('version', InputArgument::OPTIONAL, 'The minimal PHP version');
+			->addOption('min', 'm', InputOption::VALUE_REQUIRED, 'The minimal PHP version');
 	}
 	
 	protected function isInstalled()
@@ -47,20 +47,22 @@ class LintFilesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 		$this->isInstalled();
-		$config = Environment::getConfig()->open();
-		$phpExecs = $config->get('php', []);
+		$config = Environment::getConfig();
+		$phpExecs = $config->get('paths', []);
 
 		$folder = $input->getArgument('folder');
-		$version = $input->getArgument('version') ?? $config->get('version') ?? '^7.1';
+		$version = $input->getOption('min') ?? $config->get('min') ?? '^7.1';
 
 		$count = 0;
 		foreach ($phpExecs as $exec) {
+			if (!is_object($exec)) continue;
+
 			if (!$this->versionMatch($version, Environment::extractVersion($exec))) continue;
 
 			if ($count) $output->writeln('');
 
 			// Do lint
-			$settings = Settings::parseArguments([ '', '-p', $exec, $folder ]);
+			$settings = Settings::parseArguments([ '', '-p', $exec->path, $folder ]);
 			
 			$_output = new ConsoleOutput(new ConsoleWriter());
 			$_output->redirectOutput($output);

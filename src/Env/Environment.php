@@ -2,7 +2,11 @@
 
 namespace kranack\Lint\Env;
 
+use stdClass;
+
 use kranack\Lint\Config\Config;
+use kranack\Lint\Env\OS;
+use kranack\Lint\Env\Scanner\{ HomebrewScanner, IScanner, LocalScanner, MacportsScanner };
 
 class Environment
 {
@@ -24,13 +28,52 @@ class Environment
 	public function scan() : void
 	{
 		$this->scanHomebrewInstall();
+		$this->scanMacPortsInstall();
+		$this->scanLocalInstall();
 	}
 
 	private function scanHomebrewInstall() : void
 	{
-		if ((!stristr(PHP_OS, 'dar') && !stristr(PHP_OS, 'linux')) || !file_exists('/usr/local') || !is_dir('/usr/local')) return ;
+		$this->appendToPaths($this->scanInstall('Homebrew'));
+	}
 
-		$this->data->php = glob('/usr/local/Cellar/php*/*/bin/php');
+	private function scanMacPortsInstall() : void
+	{
+		$this->appendToPaths($this->scanInstall('Macports'));
+	}
+
+	private function scanLocalInstall() : void
+	{
+		$this->appendToPaths($this->scanInstall('Local'));
+	}
+
+	private function scanInstall(string $type) : array
+	{
+		$scanner = $this->getScanner($type);
+		
+		if (!$scanner->detect()) return [];
+		
+		return array_map(function($path) use ($type) {
+			return (object) [ 'path' => $path, 'type' => $type ];
+		}, $scanner->scan());
+	}
+
+	private function getScanner(string $type) : IScanner
+	{
+		switch ($type) {
+			case 'Homebrew':
+				return new HomebrewScanner();
+			case 'Macports':
+				return new MacportsScanner();
+			case 'Local':
+			default:
+				return new LocalScanner();
+		}
+	}
+
+	private function appendToPaths(array $paths)
+	{
+		$this->data->paths = array_merge($this->data->paths ?? [] , $paths);
 	}
 
 	public static function getRootPath() : string
@@ -40,7 +83,7 @@ class Environment
 
 	public static function getConfigFilePath(?string $root = null) : string
 	{
-		return ($root ?? static::getRootPath()) . 'conf' . DIRECTORY_SEPARATOR . 'config.json';
+		return ($root ?? static::getRootPath()) . sprintf('conf%sconfig.json', DIRECTORY_SEPARATOR);
 	}
 
 	public static function getConfig() : ?Config
@@ -51,7 +94,7 @@ class Environment
 			return null;
 		}
 
-		return new Config($configPath);
+		return (new Config($configPath))->open();
 	}
 
 	public static function isConfigured()
@@ -61,18 +104,13 @@ class Environment
 		return $config ? $config->validate() : false;
 	}
 
-	public static function extractVersion(string $path)
+	public static function extractVersion(stdClass $binary)
 	{
-		// is Homebrew
-		$isHomebrew = (strpos($path, '/usr/local/Cellar') === 0);
+		$scanner = (new static)->getScanner($binary->type ?? 'Local');
+		
+		if (!$scanner->isPathValid($binary->path)) return '0.0.0';
 
-		if (!$isHomebrew) return '0.0.0';
-
-		$version = basename(dirname(dirname($path)));
-		$parts = explode('_', $version);
-
-		// Ignore Homebrew custom versions (use _ separator)
-		return reset($parts) ?? '1.0.0';
+		return $scanner->extractVersion($binary->path);
 	}
 
 }

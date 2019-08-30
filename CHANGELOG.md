@@ -8,5 +8,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- install command
-- lint command
+- install command (with force option), creating a conf file lising the available PHP executable paths
+- lint command (with min option), linting PHP files in a folder
+- create tools to check environment such as OS and PHP install types (Homebrew, Macports, Local)

@@ -9,12 +9,12 @@ This tool mainly supports [Homebrew], other tools may or may not be well support
 
 ## Install
 
-Install composer dependencies with `composer install` and run `./lint-tools install`
+Install composer dependencies with `composer install` and run `./lint-tools install`. To update your configuration, run `./lint-tools install --force`.
 
 ## Usage
 
-After the install, you could run the lint command `./lint-tools lint <folder> [<version>]` where folder is the directory containing PHP sources to lint.
-The version parameter can be used to define the minimal PHP version to lint with. [Semantic Versioning][Semver] format is used.
+After the install, you could run the lint command `./lint-tools lint [-m <min>] <folder>` where folder is the directory containing PHP sources to lint.
+The min option can be used to define the minimal PHP version to lint with. [Semantic Versioning][Semver] format is used.
 
 ## Documentation
 
