@@ -1,6 +1,6 @@
 {
-    "name": "kranack/lint-tools",
-    "description": "Lint Tools CLI",
+    "name": "kranack/lint-tool",
+    "description": "Lint Tool CLI",
     "type": "project",
     "require": {
         "php": "^7.3",
