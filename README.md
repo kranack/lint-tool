@@ -9,7 +9,15 @@ This tool mainly supports [Homebrew], other tools may or may not be well support
 
 ## Install
 
-Install composer dependencies with `composer install` and run `./lint-tools install`. To update your configuration, run `./lint-tools install --force`.
+Install composer dependencies with `composer install` and run `./lint-tools install`.
+
+### Update existing installation
+
+To update your configuration, run `./lint-tools install --force`.
+
+### List cached PHP instances
+
+To list your PHP instances cached during your last installation, run `./lint-tools --list`
 
 ## Usage
 
