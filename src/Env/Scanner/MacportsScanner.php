@@ -23,7 +23,10 @@ class MacportsScanner implements IScanner
 
 		if (!file_exists($prefix) || !is_dir($prefix)) return [];
 
-		return glob($prefix . '/php*/*/bin/php');
+		$first = glob($prefix . '/php*/*/bin/php');
+		$second = glob($prefix . '/bin/php??');
+
+		return array_merge($first, $second);
 	}
 
 	public function isPathValid(string $path) : bool
