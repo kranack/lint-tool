@@ -23,10 +23,7 @@ class MacportsScanner implements IScanner
 
 		if (!file_exists($prefix) || !is_dir($prefix)) return [];
 
-		$first = glob($prefix . '/php*/*/bin/php');
-		$second = glob($prefix . '/bin/php??');
-
-		return array_merge($first, $second);
+		return glob($prefix . '/bin/php??');
 	}
 
 	public function isPathValid(string $path) : bool
@@ -40,11 +37,9 @@ class MacportsScanner implements IScanner
 
 	public function extractVersion(string $path) : string
 	{
-		$version = basename(dirname(dirname($path)));
-		$parts = explode('_', $version);
+		$version = str_replace('php', '', dirname($path));
 
-		// Ignore Macports custom versions (use _ separator)
-		return reset($parts) ?? '1.0.0';
+		return $version ?? '1.0.0';
 	}
 
 	protected function getPrefix() : string

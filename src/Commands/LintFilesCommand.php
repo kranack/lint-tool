@@ -57,7 +57,9 @@ class LintFilesCommand extends Command
 		foreach ($phpExecs as $exec) {
 			if (!is_object($exec)) continue;
 
-			if (!$this->versionMatch($version, Environment::extractVersion($exec))) continue;
+			$execVersion = $exec->version ?? Environment::extractVersion($exec);
+
+			if (!$this->versionMatch($version, $execVersion)) continue;
 
 			if ($count) $output->writeln('');
 

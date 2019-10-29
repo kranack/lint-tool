@@ -53,8 +53,8 @@ class Environment
 		
 		if (!$scanner->detect()) return [];
 		
-		return array_map(function($path) use ($type) {
-			return (object) [ 'path' => $path, 'type' => $type ];
+		return array_map(function(string $path) use ($type, $scanner) {
+			return (object) [ 'path' => $path, 'type' => $type, 'version' => $scanner->extractVersion($path) ];
 		}, $scanner->scan());
 	}
 
