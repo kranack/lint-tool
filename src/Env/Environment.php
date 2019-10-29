@@ -13,9 +13,9 @@ class Environment
 
 	private $data;
 
-	public function __construct()
+	public function __construct(string $version)
 	{
-		$this->data = (object) [ ];
+		$this->data = (object) [ 'version' => $version ];
 	}
 
 	public function init() : void

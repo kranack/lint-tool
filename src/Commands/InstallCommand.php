@@ -7,6 +7,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use PharIo\Version\Version;
+use PharIo\Version\VersionConstraintParser;
+
 use kranack\Lint\Env\Environment;
 use kranack\Lint\Exceptions\EnvironmentNotConfigured;
 
@@ -30,9 +33,19 @@ class InstallCommand extends Command
 		}
 	}
 
+	protected function isOutdated()
+	{
+		$version = Environment::getConfig()->get('version', '0.0.0');
+
+		$parser = new VersionConstraintParser();
+		$constraint = $parser->parse($this->getApplication()->getVersion());
+
+		return !$constraint->complies(new Version($version));
+	}
+
 	protected function install()
 	{
-		(new Environment())->init();
+		(new Environment($this->getApplication()->getVersion()))->init();
 	}
 
 	protected function list(OutputInterface $output)
@@ -71,7 +84,7 @@ class InstallCommand extends Command
 		try {
 			$this->isInstalled();
 
-			if ($force) { $this->install(); }
+			if ($force || $this->isOutdated()) { $this->install(); }
 		} catch (EnvironmentNotConfigured $e) {
 			$this->install();
 		}
