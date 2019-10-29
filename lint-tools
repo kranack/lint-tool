@@ -7,7 +7,7 @@ use Symfony\Component\Console\Application;
 
 use kranack\Lint\Commands;
 
-$application = new Application();
+$application = new Application('Lint tools', '0.3.0');
 
 $application->addCommands([
 	new Commands\LintFilesCommand(),
