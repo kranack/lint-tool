@@ -37,9 +37,7 @@ class MacportsScanner implements IScanner
 
 	public function extractVersion(string $path) : string
 	{
-		$version = str_replace('php', '', dirname($path));
-
-		return $version ?? '1.0.0';
+		return ScannerUtils::extractVersion($path);
 	}
 
 	protected function getPrefix() : string

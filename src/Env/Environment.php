@@ -86,9 +86,9 @@ class Environment
 		return ($root ?? static::getRootPath()) . sprintf('conf%sconfig.json', DIRECTORY_SEPARATOR);
 	}
 
-	public static function getConfig() : ?Config
+	public static function getConfig(?string $root = null) : ?Config
 	{
-		$configPath = static::getConfigFilePath();
+		$configPath = static::getConfigFilePath($root);
 
 		if (!file_exists($configPath)) {
 			return null;
