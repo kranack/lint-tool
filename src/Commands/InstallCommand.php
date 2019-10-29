@@ -51,6 +51,7 @@ class InstallCommand extends Command
 		foreach ($list as $path) {
 			$output->writeln(sprintf('<fg=cyan;options=bold>Path</> %s', ($path->path ?? '-')));
 			$output->writeln(sprintf('<fg=cyan;options=bold>Type</> %s', ($path->type ?? '-')));
+			$output->writeln(sprintf('<fg=cyan;options=bold>Version</> %s', ($path->version ?? '-')));
 
 			if (++$count !== $total) {
 				$output->writeln('----------------------------');
