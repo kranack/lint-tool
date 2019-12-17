@@ -78,7 +78,7 @@ class Environment
 
 	public static function getRootPath() : string
 	{
-		return dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
+		return LINT_ROOT_FOLDER . DIRECTORY_SEPARATOR;
 	}
 
 	public static function getConfigFilePath(?string $root = null) : string

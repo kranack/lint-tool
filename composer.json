@@ -1,7 +1,18 @@
 {
     "name": "kranack/lint-tool",
     "description": "Lint Tool CLI",
-    "type": "project",
+	"type": "project",
+	"license": "MIT",
+	"authors": [
+        {
+            "name": "Damien Calesse",
+            "email": "damien.calesse@gmail.com"
+        }
+	],
+	"bin": [ "lint-tool" ],
+	"scripts": {
+		"test": "phpunit --colors=always --no-coverage test"
+	},
     "require": {
         "php": "^7.3",
         "symfony/console": "^4.3",
@@ -11,15 +22,9 @@
     "require-dev": {
         "phpunit/phpunit": "^8.3",
         "jakub-onderka/php-parallel-lint": "^1.0",
-        "mikey179/vfsstream": "^1.6"
+        "mikey179/vfsstream": "^1.6",
+        "mockery/mockery": "^1.3"
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Damien Calesse",
-            "email": "damien.calesse@gmail.com"
-        }
-	],
 	"autoload": {
 		"psr-4": {
 			"kranack\\Lint\\": "src/"
@@ -29,8 +34,5 @@
 		"psr-4": {
 			"kranack\\Lint\\Test\\": "test/"
 		}
-	},
-	"scripts": {
-		"test": "phpunit --colors=always --no-coverage test"
 	}
 }

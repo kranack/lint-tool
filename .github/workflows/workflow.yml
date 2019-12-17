@@ -12,6 +12,6 @@ jobs:
       with:
         command: install --optimize-autoloader --prefer-dist
     - name: Run install command
-      run: ./lint-tools install
+      run: ./lint-tool install
     - name: Run lint command
-      run: ./lint-tools lint ./src
+      run: ./lint-tool lint ./src
