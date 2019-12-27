@@ -17,7 +17,7 @@ To update your configuration, run `./lint-tools install --force`.
 
 ### List cached PHP instances
 
-To list your PHP instances cached during your last installation, run `./lint-tools --list`
+To list your PHP instances cached during your last installation, run `./lint-tools install --list`
 
 ## Usage
 
