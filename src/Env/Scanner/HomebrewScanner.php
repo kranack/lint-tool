@@ -55,16 +55,23 @@ class HomebrewScanner implements IScanner
 
 		if ($first === false) return static::DEFAULT_HOME;
 
-		$home = explode('\n', strstr($first), 1);
+		$home = explode("\n", $first);
+
+		if (count($home)) {
+			$home = explode(':', $home[0]);
+			$home[0] = $home[1] ?? null;
+		}
 		
-		return $home[0] ?? static::DEFAULT_HOME;
+		$home = $home[0] ?? static::DEFAULT_HOME;
+
+		return trim($home);
 	}
 
 	protected function getConfig() : array
 	{
 		ob_start();
 		passthru('brew config', $status);
-		$config = ob_end_clean();
+		$config = ob_get_clean();
 
 		return [ $status, $config ];
 	}

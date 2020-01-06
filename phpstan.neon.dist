@@ -1,0 +1,6 @@
+parameters:
+	dynamicConstantNames:
+		- LINT_COMPOSER_FOLDER
+		- LINT_ROOT_FOLDER
+	autoload_files:
+		- src/require.php

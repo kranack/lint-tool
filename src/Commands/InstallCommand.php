@@ -15,9 +15,12 @@ use kranack\Lint\Exceptions\EnvironmentNotConfigured;
 
 class InstallCommand extends Command
 {
+
+	const VERSION_FAKE = '0.0.0';
+
 	protected static $defaultName = 'install';
 
-    protected function configure()
+    protected function configure() : void
     {
 		$this
 			->setDescription('Install config')
@@ -26,34 +29,39 @@ class InstallCommand extends Command
 			->addOption('force', 'f', InputOption::VALUE_NONE, 'Force install');
 	}
 	
-	protected function isInstalled()
+	protected function isInstalled() : void
 	{
 		if (!Environment::isConfigured()) {
 			throw new EnvironmentNotConfigured();
 		}
 	}
 
-	protected function isOutdated()
+	protected function isOutdated() : bool
 	{
-		$version = Environment::getConfig()->get('version', '0.0.0');
+		$application = $this->getApplication();
+		$config = Environment::getConfig();
+		$version = $config ? $config->get('version', static::VERSION_FAKE) : static::VERSION_FAKE;
 
 		$parser = new VersionConstraintParser();
-		$constraint = $parser->parse($this->getApplication()->getVersion());
+		
+		$constraint = $parser->parse($application ? $application->getVersion() : static::VERSION_FAKE);
 
 		return !$constraint->complies(new Version($version));
 	}
 
-	protected function install()
+	protected function install() : void
 	{
-		(new Environment($this->getApplication()->getVersion()))->init();
+		$application = $this->getApplication();
+		(new Environment($application ? $application->getVersion() : static::VERSION_FAKE))->init();
 	}
 
-	protected function list(OutputInterface $output)
+	protected function list(OutputInterface $output) : int
 	{
 		$list = [];
 
 		if (Environment::isConfigured()) {
-			$list = Environment::getConfig()->get('paths', []);
+			$config = Environment::getConfig();
+			$list = $config ? $config->get('paths', []) : [];
 		} else {
 			$output->writeln('<fg=red;options=bold>No configuration found</>');
 		}
@@ -70,13 +78,14 @@ class InstallCommand extends Command
 				$output->writeln('----------------------------');
 			}
 		}
+
+		return 0;
 	}
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
 		if ($input->getOption('list')) {
-			$this->list($output);
-			return;
+			return $this->list($output);
 		}
 
 		$force = $input->getOption('force');
@@ -88,5 +97,7 @@ class InstallCommand extends Command
 		} catch (EnvironmentNotConfigured $e) {
 			$this->install();
 		}
+
+		return 0;
     }
 }

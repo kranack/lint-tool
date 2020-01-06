@@ -1,6 +1,6 @@
 <?php
 
-namespace kranack\Lint\Test;
+namespace kranack\Lint\Test\Config;
 
 use PHPUnit\Framework\TestCase;
 use org\bovigo\vfs\{ vfsStream, vfsStreamDirectory };
@@ -22,6 +22,9 @@ class ConfigTest extends TestCase
 		file_put_contents(vfsStream::url('conf/config.json'), '{"paths":[]}');
 	}
 
+	/**
+	 * @covers kranack\Lint\Config\Config
+	 */
 	public function testFileExists()
 	{
 		$config = new Config(vfsStream::url('conf/config.json'));
@@ -29,6 +32,9 @@ class ConfigTest extends TestCase
 		$this->assertTrue($config->exists());
 	}
 
+	/**
+	 * @covers kranack\Lint\Config\Config
+	 */
 	public function testFileNotEmpty()
 	{
 		$config = new Config(vfsStream::url('conf/config.json'));
@@ -37,6 +43,11 @@ class ConfigTest extends TestCase
 		$this->assertFalse($config->isEmpty());
 	}
 
+	/**
+	 * @covers kranack\Lint\Config\Config
+	 * 
+	 * @uses kranack\Lint\Exceptions\ConfigurationNotValid
+	 */
 	public function testFileNotValid()
 	{
 		$this->expectException(ConfigurationNotValid::class);
@@ -45,6 +56,11 @@ class ConfigTest extends TestCase
 		$config->open();
 	}
 
+	/**
+	 * @covers kranack\Lint\Config\Config
+	 * 
+	 * @uses kranack\Lint\Exceptions\ConfigurationNotFound
+	 */
 	public function testFileNotFound()
 	{
 		$this->expectException(ConfigurationNotFound::class);
@@ -53,6 +69,9 @@ class ConfigTest extends TestCase
 		$config->open();
 	}
 
+	/**
+	 * @covers kranack\Lint\Config\Config
+	 */
 	public function testFileHasPathAttribute()
 	{
 		$config = new Config(vfsStream::url('conf/config.json'));

@@ -2,4 +2,7 @@ language: php
 php:
   - '7.3'
 install: composer install
-script: composer test
+script:
+  - composer test
+  - composer analyse
+  - composer infection

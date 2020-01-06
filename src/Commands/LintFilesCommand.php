@@ -20,7 +20,7 @@ class LintFilesCommand extends Command
 {
 	protected static $defaultName = 'lint';
 
-    protected function configure()
+    protected function configure() : void
     {
 		$this
 			->setDescription('Lint files')
@@ -29,14 +29,14 @@ class LintFilesCommand extends Command
 			->addOption('min', 'm', InputOption::VALUE_REQUIRED, 'The minimal PHP version');
 	}
 	
-	protected function isInstalled()
+	protected function isInstalled() : void
 	{
 		if (!Environment::isConfigured()) {
 			throw new EnvironmentNotConfigured();
 		}
 	}
 
-	protected function versionMatch(string $minVersion, string $actualVersion)
+	protected function versionMatch(string $minVersion, string $actualVersion) : bool
 	{
 		$parser = new VersionConstraintParser();
 		$constraint = $parser->parse($minVersion);
@@ -44,14 +44,14 @@ class LintFilesCommand extends Command
 		return $constraint->complies(new Version($actualVersion));
 	}
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
 		$this->isInstalled();
 		$config = Environment::getConfig();
-		$phpExecs = $config->get('paths', []);
+		$phpExecs = $config ? $config->get('paths', []) : [];
 
 		$folder = $input->getArgument('folder');
-		$version = $input->getOption('min') ?? $config->get('min') ?? '^7.1';
+		$version = $input->getOption('min') ?? ($config ? $config->get('min') : null) ?? '^7.1';
 
 		$count = 0;
 		foreach ($phpExecs as $exec) {
@@ -76,5 +76,6 @@ class LintFilesCommand extends Command
 			++$count;
 		}
 
+		return 0;
     }
 }

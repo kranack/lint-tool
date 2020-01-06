@@ -2,8 +2,6 @@
 
 namespace kranack\Lint\Env;
 
-use stdClass;
-
 use kranack\Lint\Config\Config;
 use kranack\Lint\Env\OS;
 use kranack\Lint\Env\Scanner\{ HomebrewScanner, IScanner, LocalScanner, MacportsScanner };
@@ -13,7 +11,7 @@ class Environment
 
 	private $data;
 
-	public function __construct(string $version)
+	public function __construct(string $version = '0.0.0')
 	{
 		$this->data = (object) [ 'version' => $version ];
 	}
@@ -104,9 +102,9 @@ class Environment
 		return $config ? $config->validate() : false;
 	}
 
-	public static function extractVersion(stdClass $binary)
+	public static function extractVersion(object $binary)
 	{
-		$scanner = (new static)->getScanner($binary->type ?? 'Local');
+		$scanner = (new Environment)->getScanner($binary->type ?? 'Local');
 		
 		if (!$scanner->isPathValid($binary->path)) return '0.0.0';
 

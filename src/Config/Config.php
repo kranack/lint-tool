@@ -3,15 +3,20 @@
 namespace kranack\Lint\Config;
 
 use Exception;
-use stdClass;
 
 use kranack\Lint\Exceptions\{ ConfigurationNotFound, ConfigurationNotValid };
 
 class Config
 {
 
+	/**
+	 * @var string
+	 */
 	private $path;
 
+	/**
+	 * @var object|null
+	 */
 	private $data;
 
 	public function __construct(string $path)
@@ -71,7 +76,7 @@ class Config
 		}
 	}
 
-	public static function init(string $path, ?stdClass $config = null) : void
+	public static function init(string $path, ?object $config = null) : void
 	{
 		$parentPath = dirname($path);
 
@@ -88,7 +93,7 @@ class Config
 		file_put_contents($path, json_encode($config));
 	}
 
-	public static function getDefaultConfig() : stdClass
+	public static function getDefaultConfig() : object
 	{
 		return (object) [
 			'paths'	=> [ ]
