@@ -9,7 +9,7 @@ use JakubOnderka\PhpParallelLint\{ ConsoleWriter, ErrorFormatter, TextOutput, Ou
 class ConsoleOutput extends TextOutput
 {
 
-	private $output;
+	private OutputInterface $output;
 
 	/**
      * @param int $phpVersion

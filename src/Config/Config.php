@@ -9,15 +9,9 @@ use kranack\Lint\Exceptions\{ ConfigurationNotFound, ConfigurationNotValid };
 class Config
 {
 
-	/**
-	 * @var string
-	 */
-	private $path;
+	private string $path;
 
-	/**
-	 * @var object|null
-	 */
-	private $data;
+	private ?object $data;
 
 	public function __construct(string $path)
 	{

@@ -1,6 +1,7 @@
 <?php
 
-function requireComposerAutoload() {
+function requireComposerAutoload()
+{
 	foreach([ __DIR__ . '/../vendor/autoload.php', __DIR__ . '/../../../autoload.php'] as $path) {
 		if (file_exists($path)) {
 			define('LINT_COMPOSER_FOLDER', dirname(realpath($path)));

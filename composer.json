@@ -16,8 +16,8 @@
 		"infection": "infection --threads=4 --only-covered"
 	},
     "require": {
-		"php": "^7.3",
-		"jakub-onderka/php-parallel-lint": "^1.0",
+		"php": "^7.4",
+		"jakub-onderka/php-parallel-lint": "dev-test/all-together-now",
         "symfony/console": "^4.3",
         "barryvdh/composer-cleanup-plugin": "^0.2.0",
         "phar-io/version": "^2.0"
@@ -30,7 +30,13 @@
         "infection/infection": "^0.15.0",
         "phpstan/phpstan-mockery": "^0.12.2",
         "phpstan/extension-installer": "^1.0"
-    },
+	},
+	"repositories": [
+		{
+			"type": "git",
+			"url": "https://github.com/jrfnl/PHP-Parallel-Lint"
+		}
+	],
 	"autoload": {
 		"psr-4": {
 			"kranack\\Lint\\": "src/"

@@ -9,7 +9,7 @@ use kranack\Lint\Env\Scanner\{ HomebrewScanner, IScanner, LocalScanner, Macports
 class Environment
 {
 
-	private $data;
+	private object $data;
 
 	public function __construct(string $version = '0.0.0')
 	{
@@ -51,9 +51,7 @@ class Environment
 		
 		if (!$scanner->detect()) return [];
 		
-		return array_map(function(string $path) use ($type, $scanner) {
-			return (object) [ 'path' => $path, 'type' => $type, 'version' => $scanner->extractVersion($path) ];
-		}, $scanner->scan());
+		return array_map(fn($path) => (object) [ 'path' => $path, 'type' => $type, 'version' => $scanner->extractVersion($path) ], $scanner->scan());
 	}
 
 	private function getScanner(string $type) : IScanner
