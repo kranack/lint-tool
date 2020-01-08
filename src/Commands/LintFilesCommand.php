@@ -26,7 +26,9 @@ class LintFilesCommand extends Command
 			->setDescription('Lint files')
 			->setHelp('This command lint PHP files')
 			->addArgument('folder', InputArgument::REQUIRED, 'The folder containing PHP files')
-			->addOption('min', 'm', InputOption::VALUE_REQUIRED, 'The minimal PHP version');
+			->addOption('min', 'm', InputOption::VALUE_REQUIRED, 'The minimal PHP version')
+			->addOption('exclude', null, InputOption::VALUE_REQUIRED, 'Path to exclude')
+			->addOption('colors', null, InputOption::VALUE_NONE, 'Force ANSI colors');
 	}
 	
 	protected function isInstalled() : void
@@ -44,6 +46,22 @@ class LintFilesCommand extends Command
 		return $constraint->complies(new Version($actualVersion));
 	}
 
+	protected function buildArguments(string $folder, string $path, object $options) : array
+	{
+		$exclude = $options->exclude ?? null;
+
+		$args = [ '', '-p', $path ];
+
+		if ($exclude) {
+			$args [] = '--exclude';
+			$args [] = $exclude;
+		}
+
+		$args [] = $folder;
+
+		return $args;
+	}
+
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
 		$this->isInstalled();
@@ -52,6 +70,7 @@ class LintFilesCommand extends Command
 
 		$folder = $input->getArgument('folder');
 		$version = $input->getOption('min') ?? ($config ? $config->get('min') : null) ?? '^7.1';
+		$exclude = $input->getOption('exclude') ?? '';
 
 		$count = 0;
 		foreach ($phpExecs as $exec) {
@@ -64,7 +83,7 @@ class LintFilesCommand extends Command
 			if ($count) $output->writeln('');
 
 			// Do lint
-			$settings = Settings::parseArguments([ '', '-p', $exec->path, $folder ]);
+			$settings = Settings::parseArguments($this->buildArguments($folder, $exec->path, (object) [ 'exclude' => $exclude ]));
 			
 			$_output = new ConsoleOutput(new ConsoleWriter());
 			$_output->redirectOutput($output);
