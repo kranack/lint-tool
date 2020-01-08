@@ -49,6 +49,7 @@ class LintFilesCommand extends Command
 	protected function buildArguments(string $folder, string $path, object $options) : array
 	{
 		$exclude = $options->exclude ?? null;
+		$colors = $options->colors ?? false;
 
 		$args = [ '', '-p', $path ];
 
@@ -56,6 +57,8 @@ class LintFilesCommand extends Command
 			$args [] = '--exclude';
 			$args [] = $exclude;
 		}
+
+		if ($colors) { $args [] = '--colors'; }
 
 		$args [] = $folder;
 
@@ -71,6 +74,9 @@ class LintFilesCommand extends Command
 		$folder = $input->getArgument('folder');
 		$version = $input->getOption('min') ?? ($config ? $config->get('min') : null) ?? '^7.1';
 		$exclude = $input->getOption('exclude') ?? '';
+		$colors = $input->getOption('colors') ?? false;
+
+		if ($colors) $output->setDecorated(true);
 
 		$count = 0;
 		foreach ($phpExecs as $exec) {
@@ -83,7 +89,7 @@ class LintFilesCommand extends Command
 			if ($count) $output->writeln('');
 
 			// Do lint
-			$settings = Settings::parseArguments($this->buildArguments($folder, $exec->path, (object) [ 'exclude' => $exclude ]));
+			$settings = Settings::parseArguments($this->buildArguments($folder, $exec->path, (object) [ 'exclude' => $exclude, 'colors' => $colors ]));
 			
 			$_output = new ConsoleOutput(new ConsoleWriter());
 			$_output->redirectOutput($output);
