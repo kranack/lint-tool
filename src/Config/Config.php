@@ -51,6 +51,11 @@ class Config
 		return !$this->isEmpty();
 	}
 
+	/**
+	 * @param string $attr
+	 * @param mixed $default
+	 * @return mixed
+	 */
 	public function get(string $attr, $default = null)
 	{
 		return $this->data->{$attr} ?? $default;

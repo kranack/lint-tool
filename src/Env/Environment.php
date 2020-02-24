@@ -69,7 +69,7 @@ class Environment
 		}
 	}
 
-	private function appendToPaths(array $paths)
+	private function appendToPaths(array $paths) : void
 	{
 		$this->data->paths = array_merge($this->data->paths ?? [] , $paths);
 	}
@@ -95,14 +95,14 @@ class Environment
 		return (new Config($configPath))->open();
 	}
 
-	public static function isConfigured()
+	public static function isConfigured() : bool
 	{
 		$config = static::getConfig();
 
 		return $config ? $config->validate() : false;
 	}
 
-	public static function extractVersion(object $binary)
+	public static function extractVersion(object $binary) : string
 	{
 		$scanner = (new Environment)->getScanner($binary->type ?? 'Local');
 		

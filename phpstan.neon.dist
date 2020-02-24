@@ -4,3 +4,5 @@ parameters:
 		- LINT_ROOT_FOLDER
 	autoload_files:
 		- src/require.php
+	checkMissingIterableValueType: false
+	inferPrivatePropertyTypeFromConstructor: true

@@ -11,6 +11,9 @@ use kranack\Lint\Exceptions\{ ConfigurationNotFound, ConfigurationNotValid };
 class ConfigTest extends TestCase
 {
 
+	/**
+	 * @var vfsStreamDirectory
+	 */
 	private $dir;
 
 	public function setUp() : void
@@ -25,7 +28,7 @@ class ConfigTest extends TestCase
 	/**
 	 * @covers kranack\Lint\Config\Config
 	 */
-	public function testFileExists()
+	public function testFileExists() : void
 	{
 		$config = new Config(vfsStream::url('conf/config.json'));
 
@@ -35,7 +38,7 @@ class ConfigTest extends TestCase
 	/**
 	 * @covers kranack\Lint\Config\Config
 	 */
-	public function testFileNotEmpty()
+	public function testFileNotEmpty() : void
 	{
 		$config = new Config(vfsStream::url('conf/config.json'));
 		$config->open();
@@ -48,7 +51,7 @@ class ConfigTest extends TestCase
 	 * 
 	 * @uses kranack\Lint\Exceptions\ConfigurationNotValid
 	 */
-	public function testFileNotValid()
+	public function testFileNotValid() : void
 	{
 		$this->expectException(ConfigurationNotValid::class);
 
@@ -61,7 +64,7 @@ class ConfigTest extends TestCase
 	 * 
 	 * @uses kranack\Lint\Exceptions\ConfigurationNotFound
 	 */
-	public function testFileNotFound()
+	public function testFileNotFound() : void
 	{
 		$this->expectException(ConfigurationNotFound::class);
 
@@ -72,7 +75,7 @@ class ConfigTest extends TestCase
 	/**
 	 * @covers kranack\Lint\Config\Config
 	 */
-	public function testFileHasPathAttribute()
+	public function testFileHasPathAttribute() : void
 	{
 		$config = new Config(vfsStream::url('conf/config.json'));
 		$config->open();

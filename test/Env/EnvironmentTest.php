@@ -15,6 +15,9 @@ class EnvironmentTest extends TestCase
 	
 	use MockeryPHPUnitIntegration;
 
+	/**
+	 * @var vfsStreamDirectory
+	 */
 	private $root;
 
 	public function setUp() : void

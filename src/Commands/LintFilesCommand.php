@@ -48,8 +48,8 @@ class LintFilesCommand extends Command
 
 	protected function buildArguments(string $folder, string $path, object $options) : array
 	{
-		$exclude = $options->exclude ?? null;
-		$colors = $options->colors ?? false;
+		$exclude = $options->exclude ?: null;
+		$colors = $options->colors ?: false;
 
 		$args = [ '', '-p', $path ];
 

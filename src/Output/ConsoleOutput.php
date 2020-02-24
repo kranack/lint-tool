@@ -9,14 +9,18 @@ use JakubOnderka\PhpParallelLint\{ ConsoleWriter, ErrorFormatter, TextOutput, Ou
 class ConsoleOutput extends TextOutput
 {
 
+	/**
+	 * @var OutputInterface|null
+	 */
 	private $output;
 
 	/**
      * @param int $phpVersion
      * @param int $parallelJobs
      * @param string $hhvmVersion
+	 * @return void
      */
-    public function writeHeader($phpVersion, $parallelJobs, $hhvmVersion = null)
+    public function writeHeader($phpVersion, $parallelJobs, $hhvmVersion = null) : void
     {
         $this->write("<fg=blue;options=bold>PHP {$this->phpVersionIdToString($phpVersion)} | ");
 
@@ -34,8 +38,9 @@ class ConsoleOutput extends TextOutput
 	/**
      * @param string $string
      * @param string $type
+	 * @return void
      */
-    public function write($string, $type = self::TYPE_DEFAULT)
+    public function write($string, $type = self::TYPE_DEFAULT) : void
     {
 		
 		switch ($type) {
@@ -57,8 +62,9 @@ class ConsoleOutput extends TextOutput
 	/**
      * @param string|null $line
      * @param string $type
+	 * @return void
      */
-    public function writeLine($line = null, $type = self::TYPE_DEFAULT)
+    public function writeLine($line = null, $type = self::TYPE_DEFAULT) : void
     {
 		$line = $line ?? '';
 
@@ -77,7 +83,7 @@ class ConsoleOutput extends TextOutput
         $this->output->writeln($line);
     }
 	
-	public function redirectOutput(OutputInterface $output)
+	public function redirectOutput(OutputInterface $output) : void
 	{
 		$this->output = $output;
 	}
