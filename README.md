@@ -1,5 +1,7 @@
 # Lint Tool
 
+![Main workflow](https://github.com/kranack/lint-tool/workflows/Main%20workflow/badge.svg) [![Build Status](https://travis-ci.org/kranack/lint-tool.svg?branch=master)](https://travis-ci.org/kranack/lint-tool) ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/kranack/lint-tool)
+
 ## How it works
 
 This lint tool use your PHP binaries to lint your sources files.
