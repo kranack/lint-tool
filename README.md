@@ -23,7 +23,7 @@ To list your PHP instances cached during your last installation, run `./lint-too
 
 ## Usage
 
-After the install, you could run the lint command `./lint-tools lint [-m <min>] <folder>` where folder is the directory containing PHP sources to lint.
+After the install, you could run the lint command `./lint-tools lint [-m <min>] [--exclude] [--colors] [--full] [--no-local] <folder>` where folder is the directory containing PHP sources to lint.
 The min option can be used to define the minimal PHP version to lint with. [Semantic Versioning][Semver] format is used.
 
 ## Documentation

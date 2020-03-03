@@ -6,9 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2020-03-03
+
+### Added
+
+- No-local option for lint command. Can be used to skip all local PHP binaries for linting targeted files
+- Full option for lint command. Can be used to force using all PHP binaries (even if another similar version has already been used)
+- New test file for `OS` class
+
 ### Changed
 
 - Require file now search for parent directory containing the composer.json
+- The lint command now filters PHP binaries comparing their versions (skip similar versions). This behaviour can be overrided by the `full` option
+- All the Scanner types are now stored in a class `Scanner_Type` in order to be used outside the `Environment` class
+- Update README with all missing options for the `lint` command
 
 ## [0.1.0] - 2020-02-28
 
@@ -20,4 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - composer require file, to use the tool within a composer project
 - travis and github CI configurations
 
+[Unreleased]: https://github.com/kranack/lint-tool/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/kranack/lint-tool/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/kranack/lint-tool/releases/tag/v0.1.0

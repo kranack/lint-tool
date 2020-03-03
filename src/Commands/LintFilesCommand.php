@@ -13,6 +13,7 @@ use PharIo\Version\Version;
 use PharIo\Version\VersionConstraintParser;
 
 use kranack\Lint\Env\Environment;
+use kranack\Lint\Env\Scanner\Scanner_Type;
 use kranack\Lint\Exceptions\EnvironmentNotConfigured;
 use kranack\Lint\Output\ConsoleOutput;
 
@@ -28,7 +29,9 @@ class LintFilesCommand extends Command
 			->addArgument('folder', InputArgument::REQUIRED, 'The folder containing PHP files')
 			->addOption('min', 'm', InputOption::VALUE_REQUIRED, 'The minimal PHP version')
 			->addOption('exclude', null, InputOption::VALUE_REQUIRED, 'Path to exclude')
-			->addOption('colors', null, InputOption::VALUE_NONE, 'Force ANSI colors');
+			->addOption('colors', null, InputOption::VALUE_NONE, 'Force ANSI colors')
+			->addOption('full', null, InputOption::VALUE_NONE, 'Force all PHP binaries to be used for linting')
+			->addOption('no-local', null, InputOption::VALUE_NONE, 'Force all local PHP binaries to be ignored');
 	}
 	
 	protected function isInstalled() : void
@@ -65,16 +68,20 @@ class LintFilesCommand extends Command
 		return $args;
 	}
 
+
     protected function execute(InputInterface $input, OutputInterface $output) : int
     {
 		$this->isInstalled();
 		$config = Environment::getConfig();
 		$phpExecs = $config ? $config->get('paths', []) : [];
+		$usedExecs = [];
 
 		$folder = $input->getArgument('folder');
 		$version = $input->getOption('min') ?? ($config ? $config->get('min') : null) ?? '^7.1';
 		$exclude = $input->getOption('exclude') ?? '';
 		$colors = $input->getOption('colors') ?? false;
+		$full = $input->getOption('full') ?? false;
+		$noLocal = $input->getOption('no-local') ?? false;
 
 		if ($colors) $output->setDecorated(true);
 
@@ -84,7 +91,20 @@ class LintFilesCommand extends Command
 
 			$execVersion = $exec->version ?? Environment::extractVersion($exec);
 
+			// If the PHP exec version does not match the constraint then skip it
 			if (!$this->versionMatch($version, $execVersion)) continue;
+
+			// If no-local mode then skip all local PHP exec
+			if ($noLocal && $exec->type === Scanner_Type::LOCAL) continue;
+
+			// If non-full mode then search for an already used matching PHP exec
+			if (!$full) {
+				foreach ($usedExecs as $_exec) {
+					$_execVersion = $_exec->version ?? Environment::extractVersion($_exec);
+
+					if ($this->versionMatch(sprintf('~%s', $_execVersion), $execVersion) || $this->versionMatch(sprintf('~%s', $execVersion), $_execVersion)) continue 2;
+				}
+			}
 
 			if ($count) $output->writeln('');
 
@@ -99,6 +119,7 @@ class LintFilesCommand extends Command
 			$manager->run($settings);
 
 			++$count;
+			$usedExecs [] = $exec;
 		}
 
 		return 0;

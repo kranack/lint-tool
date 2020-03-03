@@ -4,7 +4,7 @@ namespace kranack\Lint\Env;
 
 use kranack\Lint\Config\Config;
 use kranack\Lint\Env\OS;
-use kranack\Lint\Env\Scanner\{ HomebrewScanner, IScanner, LocalScanner, MacportsScanner };
+use kranack\Lint\Env\Scanner\{ HomebrewScanner, IScanner, LocalScanner, MacportsScanner, Scanner_Type };
 
 class Environment
 {
@@ -32,17 +32,17 @@ class Environment
 
 	private function scanHomebrewInstall() : void
 	{
-		$this->appendToPaths($this->scanInstall('Homebrew'));
+		$this->appendToPaths($this->scanInstall(Scanner_Type::HOMEBREW));
 	}
 
 	private function scanMacPortsInstall() : void
 	{
-		$this->appendToPaths($this->scanInstall('Macports'));
+		$this->appendToPaths($this->scanInstall(Scanner_Type::MACPORTS));
 	}
 
 	private function scanLocalInstall() : void
 	{
-		$this->appendToPaths($this->scanInstall('Local'));
+		$this->appendToPaths($this->scanInstall(Scanner_Type::LOCAL));
 	}
 
 	private function scanInstall(string $type) : array
@@ -59,11 +59,11 @@ class Environment
 	private function getScanner(string $type) : IScanner
 	{
 		switch ($type) {
-			case 'Homebrew':
+			case Scanner_Type::HOMEBREW:
 				return new HomebrewScanner();
-			case 'Macports':
+			case Scanner_Type::MACPORTS:
 				return new MacportsScanner();
-			case 'Local':
+			case Scanner_Type::LOCAL:
 			default:
 				return new LocalScanner();
 		}
@@ -104,7 +104,7 @@ class Environment
 
 	public static function extractVersion(object $binary) : string
 	{
-		$scanner = (new Environment)->getScanner($binary->type ?? 'Local');
+		$scanner = (new Environment)->getScanner($binary->type ?? Scanner_Type::LOCAL);
 		
 		if (!$scanner->isPathValid($binary->path)) return '0.0.0';
 
