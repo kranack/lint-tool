@@ -17,7 +17,7 @@
 	},
     "require": {
 		"php": "^7.3",
-		"grogy/php-parallel-lint": "^1.1",
+		"php-parallel-lint/php-parallel-lint": "^1.1",
         "symfony/console": "^4.3",
         "barryvdh/composer-cleanup-plugin": "^0.2.0",
         "phar-io/version": "^2.0"

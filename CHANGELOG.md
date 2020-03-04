@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Change php-parallel-lint dependency to use `php-parallel-lint/php-parallel-lint` instead of `grogy/php-parallel-lint` (marked as abandoned)
+
 ## [0.2.0] - 2020-03-03
 
 ### Added
