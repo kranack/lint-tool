@@ -2,6 +2,8 @@
 
 namespace kranack\Lint\Commands;
 
+use stdClass;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\{ InputArgument, InputOption };
@@ -49,7 +51,7 @@ class LintFilesCommand extends Command
 		return $constraint->complies(new Version($actualVersion));
 	}
 
-	protected function buildArguments(string $folder, string $path, object $options) : array
+	protected function buildArguments(string $folder, string $path, stdClass $options) : array
 	{
 		$exclude = $options->exclude ?: null;
 		$colors = $options->colors ?: false;
