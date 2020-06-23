@@ -51,9 +51,22 @@ class Environment
 		
 		if (!$scanner->detect()) return [];
 		
-		return array_map(function(string $path) use ($type, $scanner) {
+		$versions = array_map(function(string $path) use ($type, $scanner) {
 			return (object) [ 'path' => $path, 'type' => $type, 'version' => $scanner->extractVersion($path) ];
 		}, $scanner->scan());
+
+		// Filter versions
+		$versions = array_filter($versions, function($version) {
+			$code = 0;
+
+			ob_start();
+			passthru(sprintf('%s -v 2>&1', $version->path), $code);
+			ob_end_clean();
+
+			return $code === 0;
+		});
+
+		return $versions;
 	}
 
 	private function getScanner(string $type) : IScanner
