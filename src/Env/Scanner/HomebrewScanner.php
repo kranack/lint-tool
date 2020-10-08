@@ -44,7 +44,9 @@ class HomebrewScanner implements IScanner
 		$parts = explode('_', $version);
 
 		// Ignore Homebrew custom versions (use _ separator)
-		return reset($parts) ?? '1.0.0';
+		$version = reset($parts) ?? '1.0.0';
+
+		return preg_replace('/(\d+.\d+.\d+)(.*)/', '$1', $version);
 	}
 
 	protected function getPrefix() : string
