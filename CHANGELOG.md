@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2021-05-27
+
+### Changed
+
+- Change composer-cleanup-plugin dependency to use `dev-fix/composer-update` branch instead of last version (support Composer 2)
+
 ## [0.2.1] - 2020-06-23
 
 ### Changed

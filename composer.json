@@ -19,7 +19,7 @@
 		"php": "^7.3",
 		"php-parallel-lint/php-parallel-lint": "^1.1",
         "symfony/console": "^4.3",
-        "barryvdh/composer-cleanup-plugin": "^0.2.0",
+        "barryvdh/composer-cleanup-plugin": "dev-fix/composer-update",
         "phar-io/version": "^2.0"
     },
     "require-dev": {
@@ -40,5 +40,11 @@
 		"psr-4": {
 			"kranack\\Lint\\Test\\": "test/"
 		}
-	}
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/kranack/composer-cleanup-plugin.git"
+		}
+	]
 }
