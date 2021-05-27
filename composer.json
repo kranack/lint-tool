@@ -13,13 +13,13 @@
 	"scripts": {
 		"test": "phpunit --colors=always --no-coverage test",
 		"analyse": "phpstan analyse src test --level 6",
-		"infection": "infection --threads=4 --only-covered"
+		"infection": "XDEBUG_MODE=coverage infection --threads=4 --only-covered"
 	},
     "require": {
-		"php": "^7.3",
+		"php": "^7.4",
 		"php-parallel-lint/php-parallel-lint": "^1.1",
         "symfony/console": "^4.3",
-        "barryvdh/composer-cleanup-plugin": "^0.2.0",
+        "barryvdh/composer-cleanup-plugin": "dev-fix/composer-update",
         "phar-io/version": "^2.0"
     },
     "require-dev": {
@@ -40,5 +40,11 @@
 		"psr-4": {
 			"kranack\\Lint\\Test\\": "test/"
 		}
-	}
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/kranack/composer-cleanup-plugin.git"
+		}
+	]
 }

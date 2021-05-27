@@ -59,7 +59,7 @@ class HomebrewScanner implements IScanner
 
 		$home = explode("\n", $first);
 
-		if (count($home)) {
+		if (count($home) > 1) {
 			$home = explode(':', $home[0]);
 			$home[0] = $home[1] ?? null;
 		}

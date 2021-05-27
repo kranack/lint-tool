@@ -6,7 +6,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4']
+        php-versions: ['7.4']
     name: PHP ${{ matrix.php-versions }} Test on 'ubuntu-latest'
     steps:
     - name: Checkout
@@ -16,9 +16,9 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
     - name: Set Composer
-      uses: pxgamer/composer-action@master
+      uses: MilesChou/composer-action/7.4@master
       with:
-        command: install --optimize-autoloader --prefer-dist
+        args: install --optimize-autoloader --prefer-dist
     - name: Run install command
       run: ./lint-tool install
     - name: Run lint command
