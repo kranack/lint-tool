@@ -2,7 +2,7 @@ parameters:
 	dynamicConstantNames:
 		- LINT_COMPOSER_FOLDER
 		- LINT_ROOT_FOLDER
-	autoload_files:
+	bootstrapFiles:
 		- src/require.php
 	checkMissingIterableValueType: false
 	inferPrivatePropertyTypeFromConstructor: true
