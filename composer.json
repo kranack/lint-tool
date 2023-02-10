@@ -46,5 +46,12 @@
 			"type": "vcs",
 			"url": "https://github.com/kranack/composer-cleanup-plugin.git"
 		}
-	]
+	],
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "infection/extension-installer": true,
+            "barryvdh/composer-cleanup-plugin": true
+        }
+    }
 }
