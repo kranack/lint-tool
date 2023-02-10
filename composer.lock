@@ -4,15 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "982664026e72dfcb6f58432129791e0b",
+    "content-hash": "7f24fc00df6a99955c759dbc199a2ac9",
     "packages": [
         {
-            "name": "barryvdh/composer-cleanup-plugin",
-            "version": "dev-fix/composer-update",
+            "name": "kranack/composer-cleanup-plugin",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kranack/composer-cleanup-plugin.git",
-                "reference": "2f30b9bd8dbe9ca3fb9d69188f1e57b36249b595"
+                "reference": "adbcf10466e5686146629c3e690ddd52efa708b8"
             },
             "require": {
                 "composer-plugin-api": "^2.0"
@@ -20,6 +20,7 @@
             "require-dev": {
                 "composer/composer": "^2.0"
             },
+            "default-branch": true,
             "type": "composer-plugin",
             "extra": {
                 "branch-alias": {
@@ -42,7 +43,7 @@
                 }
             ],
             "description": "A composer cleanup plugin, to remove tests and documentation to save space",
-            "time": "2020-11-15T17:22:33+00:00"
+            "time": "2023-02-10T09:58:45+00:00"
         },
         {
             "name": "phar-io/version",
@@ -3876,7 +3877,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "barryvdh/composer-cleanup-plugin": 20
+        "kranack/composer-cleanup-plugin": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
